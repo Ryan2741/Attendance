@@ -4,11 +4,11 @@
   <title>Salary Slip - {{ payslip.employee_name }}</title>
   <style>
     @media print {
-      @page { size: A5; margin: 10mm; }
-      body { width: 100%; }
-      .no-print { display: none; }
-      input, textarea { border: none; background: none; width: auto; }
-    }
+  @page { size: A5 landscape; margin: 10mm; }
+  body { width: 100%; }
+  .no-print { display: none; }
+  input, textarea { border: none; background: none; width: auto; }
+}
     .slip-container {
       width: 100%;
       max-width: 600px;
