@@ -89,12 +89,60 @@
         <label for="file" class="form-label">Attendance File (.xlsx or .dat)</label>
         <input class="form-control" type="file" id="file" name="file" accept=".xlsx,.dat" required>
       </div>
+      <div class="mb-3">
+        <label for="month" class="form-label">Select Month</label>
+        <select class="form-select" id="month" name="month" required>
+          {% for m, y, label in months %}
+            <option value="{{m}}-{{y}}"
+              {% if selected_month==m and selected_year==y %}selected{% endif %}>
+              {{label}}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
       <div class="loader" id="loader"></div>
       <div class="d-grid">
         <button type="submit" class="btn btn-custom">Generate Report</button>
       </div>
     </form>
   </div>
+
+  {% if summary is defined and not summary.empty %}
+    <div class="mt-5">
+      <h4>Summary Table</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              {% for col in summary.columns %}
+                <th>{{ col }}</th>
+              {% endfor %}
+              <th>Salary Slip</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in summary.itertuples() %}
+              <tr>
+                {% for value in row[1:] %}
+                  <td>{{ value }}</td>
+                {% endfor %}
+                <td>
+                  <a href="{{ url_for('salary_slip', user_id=row[2], month=selected_month, year=selected_year) }}" class="btn btn-sm btn-primary" target="_blank">
+                    Generate Salary Slip
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if download_available %}
+        <div class="mb-3">
+          <a href="{{ url_for('download_report') }}" class="btn btn-success">Download Full Report</a>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
 
   <footer>
     &copy; 2025 | Attendance App

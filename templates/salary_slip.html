@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Salary Slip - {{ payslip.employee_name }}</title>
+  <style>
+    @media print {
+      @page { size: A5; margin: 10mm; }
+      body { width: 100%; }
+      .no-print { display: none; }
+      input, textarea { border: none; background: none; width: auto; }
+    }
+    .slip-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      border: 1px solid #333;
+      padding: 24px;
+      background: #fff;
+      font-family: Arial, sans-serif;
+    }
+    .slip-header { text-align: center; font-size: 1.5em; font-weight: bold; margin-bottom: 16px; }
+    .slip-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    .slip-table td, .slip-table th { border: 1px solid #333; padding: 6px 10px; }
+    .slip-footer { text-align: right; margin-top: 20px; }
+    input, textarea { width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="slip-container">
+    <form method="POST">
+      <div class="slip-header">
+        <input name="company" value="{{ payslip.company }}" />
+      </div>
+      <div style="text-align:center;">
+        <input name="address1" value="{{ payslip.address1 }}" /><br>
+        <input name="address2" value="{{ payslip.address2 }}" /><br>
+        <input name="address3" value="{{ payslip.address3 }}" />
+      </div>
+      <div style="text-align:center; margin: 10px 0;">
+        <b>Pay Slip For The Month of</b>
+        <input name="month" value="{{ payslip.month }}" style="width:40px; display:inline;" /> /
+        <input name="year" value="{{ payslip.year }}" style="width:60px; display:inline;" />
+      </div>
+      <table class="slip-table">
+        <tr><th>Employee Name</th><td><input name="employee_name" value="{{ payslip.employee_name }}" /></td></tr>
+        <tr><th>Employee Number</th><td><input name="employee_number" value="{{ payslip.employee_number }}" /></td></tr>
+        <tr><th>Previous Leave Bal</th><td><input name="previous_leave_bal" value="{{ payslip.previous_leave_bal }}" /></td></tr>
+        <tr><th>This Month Leave</th><td><input name="this_month_leave" value="{{ payslip.this_month_leave }}" /></td></tr>
+        <tr><th>Leaves Utilized</th><td><input name="leaves_utilized" value="{{ payslip.leaves_utilized }}" /></td></tr>
+        <tr><th>Total Leave Bal</th><td><input name="total_leave_bal" value="{{ payslip.total_leave_bal }}" /></td></tr>
+        <tr><th>EL</th><td><input name="el" value="{{ payslip.el }}" /></td></tr>
+        <tr><th>CL</th><td><input name="cl" value="{{ payslip.cl }}" /></td></tr>
+        <tr><th>Department</th><td><input name="department" value="{{ payslip.department }}" /></td></tr>
+        <tr><th>Location</th><td><input name="location" value="{{ payslip.location }}" /></td></tr>
+      </table>
+      <table class="slip-table">
+        <tr><th colspan="2">Earnings</th><th>Amount</th></tr>
+        <tr><td colspan="2">Basic Salary</td><td><input name="basic_salary" value="{{ payslip.basic_salary }}" /></td></tr>
+        <tr><td colspan="2">House Rent Allowance</td><td><input name="hra" value="{{ payslip.hra }}" /></td></tr>
+        <tr><td colspan="2">Transport Allowance</td><td><input name="ta" value="{{ payslip.ta }}" /></td></tr>
+        <tr><td colspan="2"><b>Total Earning</b></td><td><input name="total_earning" value="{{ payslip.total_earning }}" /></td></tr>
+      </table>
+      <table class="slip-table">
+        <tr><th colspan="2">Deductions</th><th>Amount</th></tr>
+        <tr><td colspan="2">Advance To Staff</td><td><input name="advance" value="{{ payslip.advance }}" /></td></tr>
+        <tr><td colspan="2">ESI</td><td><input name="esi" value="{{ payslip.esi }}" /></td></tr>
+        <tr><td colspan="2">Leave Deduction</td><td><input name="leave_deduction" value="{{ payslip.leave_deduction }}" /></td></tr>
+        <tr><td colspan="2"><b>Total Deduction</b></td><td><input name="total_deduction" value="{{ payslip.total_deduction }}" /></td></tr>
+      </table>
+      <div style="text-align:right; font-size:1.2em;">
+        <b>Net Amount: </b><input name="net_amount" value="{{ payslip.net_amount }}" />
+      </div>
+      <div style="margin-top:30px; text-align:right;">
+        Authorised Signatory
+      </div>
+      <div class="slip-footer no-print">
+        <button type="submit" class="btn btn-success">Update</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()">Print</button>
+        <a href="{{ url_for('upload') }}" class="btn btn-secondary">Back</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
